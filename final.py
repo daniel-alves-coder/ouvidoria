@@ -23,10 +23,13 @@ while opcao != 7:
         sql = "select * from manifestacoes;"
         retorno = listarBancoDados(conexao,sql)
 
-        print(barra*2)
-        for item in retorno:
-            print("CÓDIGO:",item[0],"|","NOME:",item[1],"|","MANIFESTAÇÃO:",item[2],"|","TIPO:",item[3],"|")
-        print(barra * 2)
+        if len(retorno) == 0:
+            print("Não existe nunhuma manifestação até o momento")
+        else:
+            print(barra*2)
+            for item in retorno:
+                print("CÓDIGO:",item[0],"|","NOME:",item[1],"|","MANIFESTAÇÃO:",item[2],"|","TIPO:",item[3],"|")
+            print(barra * 2)
 
     elif opcao == 2: # Listagem das Manifestações por tipo
         sql = "select * from manifestacoes where tipo = %s"
@@ -91,6 +94,7 @@ while opcao != 7:
         dados = [nomeUsuario,manifestacao,tipo]
         insertNoBancoDados(conexao,sql,dados)
 
+        print(barra)
         print("Manifestação inserida com sucesso!")
 
     elif opcao == 4: # Exibir quantidade de manifestações
@@ -134,4 +138,5 @@ while opcao != 7:
     elif opcao != 7:
         print("OPÇÃO INVALIDA!!")
 
+print("Agradecemos por nos ajudar a melhorar! Seu feedback é fundamental para o nosso sucesso!")
 encerrarConexao(conexao)
