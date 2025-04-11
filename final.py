@@ -44,8 +44,12 @@ while opcao != 7:
         while True: # verifica se o codigo do tipo de manifestação é valido
             print("ESCOLHA UM TIPO DE MANIFESTAÇÃO \n1) Elogio \n2) Sugestão \n3) Reclamação")
             print(barra)
-            tipo = int(input("Digite o codigo: "))
+            tipo = input("Digite o codigo: ")
             print(barra)
+
+            if tipo in itemsMenu: # Transforma a opção em inteiro caso ela seja um dos numeros presentes no menu
+                tipo = int(tipo)
+
 
             if tipo == 1:
                 tipo = "Elogio"
@@ -59,7 +63,7 @@ while opcao != 7:
             else:
                 print("CÓDIGO INVALIDO")
                 print(barra)
-                
+
         dados = [tipo]
         retorno = listarBancoDados(conexao,sql,dados)
 
@@ -89,8 +93,12 @@ while opcao != 7:
         while True:
             print("ESCOLHA UM TIPO DE MANIFESTAÇÃO \n1) Elogio \n2) Sugestão \n3) Reclamação")
             print(barra)
-            tipo = int(input("Digite o codigo: "))
+            tipo = input("Digite o codigo: ")
             print(barra)
+
+            if tipo in itemsMenu: # Transforma a opção em inteiro caso ela seja um dos numeros presentes no menu
+                tipo = int(tipo)
+
 
             if tipo == 1:
                 tipo = "Elogio"
