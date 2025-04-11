@@ -6,6 +6,7 @@ itemsMenu = ["1","2","3","4","5","6","7"]
 conexao = criarConexao('localhost','root','danielfera','ouvidoria')
 
 while opcao != 7:
+    # --------------MENU---------------
     print(barra)
     print("1) Listagem das Manifestações "
           "\n2) Listagem das Manifestações por tipo"
@@ -19,10 +20,12 @@ while opcao != 7:
     opcao = input("Digite o código da opção: ")
     print(barra)
 
-    if opcao in itemsMenu: # Transforma a opção em inteiro caso ela seja um dos numeros do menu
+    if opcao in itemsMenu: # Transforma a opção em inteiro caso ela seja um dos numeros presentes no menu
         opcao = int(opcao)
 
-    if opcao == 1:  # Listagem das Manifestações
+    # --------------OPÇÕES---------------
+    # 1) Listagem das Manifestações
+    if opcao == 1:  
         sql = "select * from manifestacoes;"
         retorno = listarBancoDados(conexao,sql)
 
@@ -34,7 +37,8 @@ while opcao != 7:
                 print("CÓDIGO:",item[0],"|","NOME:",item[1],"|","MANIFESTAÇÃO:",item[2],"|","TIPO:",item[3],"|")
             print(barra * 2)
 
-    elif opcao == 2: # Listagem das Manifestações por tipo
+    # 2) Listagem das Manifestações por tipo
+    elif opcao == 2: 
         sql = "select * from manifestacoes where tipo = %s"
 
         while True: # verifica se o codigo do tipo de manifestação é valido
@@ -55,6 +59,7 @@ while opcao != 7:
             else:
                 print("CÓDIGO INVALIDO")
                 print(barra)
+                
         dados = [tipo]
         retorno = listarBancoDados(conexao,sql,dados)
 
@@ -66,7 +71,8 @@ while opcao != 7:
                 print("CODIGO:", item[0], "|", "NOME:", item[1], "|", "MANIFESTAÇÃO:", item[2], "|", "TIPO:", item[3], "|")
             print(barra * 2)
 
-    elif opcao == 3: # Criar uma nova manifestação
+    # 3) Criar uma nova manifestação
+    elif opcao == 3: 
         sql = "insert into manifestacoes (nome_usuario,manifestacao,tipo) values (%s,%s,%s);"
 
         while True: # Verifica se o nome tem 3 caracteres
@@ -115,7 +121,8 @@ while opcao != 7:
         print(barra)
         print("Manifestação inserida com sucesso! Seu código é",codigoManifestacao)
 
-    elif opcao == 4: # Exibir quantidade de manifestações
+    # 4) Exibir quantidade de manifestações
+    elif opcao == 4: 
         sql = "select count(*) from manifestacoes;"
         retorno = listarBancoDados(conexao,sql)
 
@@ -126,7 +133,8 @@ while opcao != 7:
         else:
             print("Até o momento, o sistema possui exatas " + str(retorno[0][0]) + " manifestações")
 
-    elif opcao == 5: # Pesquisar uma manifestação por código
+    # 5) Pesquisar uma manifestação por código
+    elif opcao == 5: 
         sql = "select * from manifestacoes where codigo = %s"
         codigo = int(input("Digite o codigo da manifestação: "))
         print(barra)
@@ -141,7 +149,8 @@ while opcao != 7:
                 print("CÓDIGO:",item[0],"|","NOME:",item[1],"|","MANIFESTAÇÃO:",item[2],"|","TIPO:",item[3],"|")
             print(barra*2)
 
-    elif opcao == 6: # Delete manifestação por codigo
+    # 6) Delete manifestação por codigo
+    elif opcao == 6: 
         sql = "delete from manifestacoes where codigo = %s"
         codigo = int(input("Digite o código da Manifestação: "))
         dados = [codigo]
@@ -152,6 +161,7 @@ while opcao != 7:
         else:
             print("Não existe manifestação com esse código!")
 
+    # OPÇÃO INVALIDA
     elif opcao != 7:
         print("OPÇÃO INVALIDA!!")
 
