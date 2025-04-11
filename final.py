@@ -2,7 +2,7 @@ from operacoesbd import *
 
 opcao = 0
 barra = "-" * 50
-
+itemsMenu = ["1","2","3","4","5","6","7"]
 conexao = criarConexao('localhost','root','danielfera','ouvidoria')
 
 while opcao != 7:
@@ -16,8 +16,11 @@ while opcao != 7:
           "\n7) Sair do Sistema")
     print(barra)
 
-    opcao = int(input("Digite o código da opção: "))
+    opcao = input("Digite o código da opção: ")
     print(barra)
+
+    if opcao in itemsMenu: # Transforma a opção em inteiro caso ela seja um dos numeros do menu
+        opcao = int(opcao)
 
     if opcao == 1:  # Listagem das Manifestações
         sql = "select * from manifestacoes;"
@@ -34,7 +37,7 @@ while opcao != 7:
     elif opcao == 2: # Listagem das Manifestações por tipo
         sql = "select * from manifestacoes where tipo = %s"
 
-        while True:
+        while True: # verifica se o codigo do tipo de manifestação é valido
             print("ESCOLHA UM TIPO DE MANIFESTAÇÃO \n1) Elogio \n2) Sugestão \n3) Reclamação")
             print(barra)
             tipo = int(input("Digite o codigo: "))
@@ -53,7 +56,6 @@ while opcao != 7:
                 print("CÓDIGO INVALIDO")
                 print(barra)
         dados = [tipo]
-
         retorno = listarBancoDados(conexao,sql,dados)
 
         if len(retorno) == 0:
@@ -67,8 +69,16 @@ while opcao != 7:
     elif opcao == 3: # Criar uma nova manifestação
         sql = "insert into manifestacoes (nome_usuario,manifestacao,tipo) values (%s,%s,%s);"
 
-        nomeUsuario = input("Digite o nome do usuario que inseriu a manifestação:")
-        print(barra)
+        while True: # Verifica se o nome tem 3 caracteres
+            nomeUsuario = input("Digite o nome do usuario que inseriu a manifestação:")
+            print(barra)
+
+            if len(nomeUsuario) >= 3:
+                break
+            else:
+                print(barra)
+                print("O nome tem que conter no minimo 3 caracteres")
+                print(barra)
 
         while True:
             print("ESCOLHA UM TIPO DE MANIFESTAÇÃO \n1) Elogio \n2) Sugestão \n3) Reclamação")
@@ -89,13 +99,21 @@ while opcao != 7:
                 print("CÓDIGO INVALIDO")
                 print(barra)
 
-        manifestacao = input("Digite sua manifestação: ")
+        while True: # Verifica se a manifestação tem 3 caracteres
+            manifestacao = input("Digite sua manifestação: ")
+
+            if len(manifestacao) >= 3:
+                break
+            else:
+                print(barra)
+                print("A manifestação tem que conter no minimo 3 caracteres")
+                print(barra)
 
         dados = [nomeUsuario,manifestacao,tipo]
-        insertNoBancoDados(conexao,sql,dados)
+        codigoManifestacao = insertNoBancoDados(conexao,sql,dados)
 
         print(barra)
-        print("Manifestação inserida com sucesso!")
+        print("Manifestação inserida com sucesso! Seu código é",codigoManifestacao)
 
     elif opcao == 4: # Exibir quantidade de manifestações
         sql = "select count(*) from manifestacoes;"
@@ -106,8 +124,7 @@ while opcao != 7:
         elif retorno == 1:
             print("Até o momento, o sistema possui somente 1 manifestação")
         else:
-            for item in retorno:
-                print("Até o momento, o sistema possui exatas " + str(item[0]) + " manifestações")
+            print("Até o momento, o sistema possui exatas " + str(retorno[0][0]) + " manifestações")
 
     elif opcao == 5: # Pesquisar uma manifestação por código
         sql = "select * from manifestacoes where codigo = %s"
