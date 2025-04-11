@@ -68,7 +68,10 @@ while opcao != 7:
         retorno = listarBancoDados(conexao,sql,dados)
 
         if len(retorno) == 0:
-            print("Não existe nunhum", tipo)
+            if tipo == "Elogio":
+                print("Não existe nunhum", tipo)
+            else:
+                print("Não existe nunhuma", tipo)
         else:
             print(barra * 2)
             for item in retorno:
