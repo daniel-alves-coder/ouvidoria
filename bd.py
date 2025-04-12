@@ -7,11 +7,11 @@ codigo para criar uma tabela:
 ------------------------------
 
 create table manifestacoes (
-    codigo int auto_incremente,
+    codigo int auto_increment,
     nome_usuario varchar(100),
     manifestacao varchar(500),
     tipo varchar(20),
-    primay key(codigo)
+    primary key(codigo)
 );
 '''
 
